@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/home_view/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/api/api_manager.dart';
 import '../../../../core/app_utls/app_colors.dart';
+import '../../bloc/news_cubit.dart';
 import '../../data/model/news_response.dart';
 import '../../data/model/source_response.dart';
 import 'news_item.dart';
 
 class SearchBarr extends StatefulWidget {
-  final List<Source> sourceList;
-  final int sourceNumber;
-
-  const SearchBarr(
-      {super.key, required this.sourceNumber, required this.sourceList});
+  const SearchBarr({super.key});
 
   @override
   State<SearchBarr> createState() => _SearchBarrState();
@@ -24,6 +22,7 @@ class _SearchBarrState extends State<SearchBarr> {
 
   @override
   Widget build(BuildContext context) {
+    NewsCubit newsCubit = BlocProvider.of<NewsCubit>(context);
     AppThemeProvider themeProvider = Provider.of<AppThemeProvider>(context);
     return SearchAnchor(
       viewBackgroundColor: themeProvider.appTheme == ThemeMode.light
@@ -77,7 +76,7 @@ class _SearchBarrState extends State<SearchBarr> {
             height: 15,
           ),
           FutureBuilder<NewsResponse>(
-            future: ApiManager.getNewsBySourceId(widget.sourceList[widget.sourceNumber].id!),
+            future: ApiManager.getNewsBySourceId(newsCubit.sourceList[newsCubit.selectedIndex].id!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

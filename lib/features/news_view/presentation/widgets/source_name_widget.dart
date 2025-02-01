@@ -6,24 +6,18 @@ import 'package:provider/provider.dart';
 import '../../../../core/app_utls/app_styles.dart';
 import '../../data/model/source_response.dart';
 
-class SourceNameWidget extends StatefulWidget {
+class SourceNameWidget extends StatelessWidget {
   final bool isSelected;
   final Source source;
 
-  const SourceNameWidget(
-      {super.key, required this.source, required this.isSelected});
+  const SourceNameWidget({super.key, required this.source, required this.isSelected});
 
-  @override
-  State<SourceNameWidget> createState() => _SourceNameWidgetState();
-}
-
-class _SourceNameWidgetState extends State<SourceNameWidget> {
   @override
   Widget build(BuildContext context) {
     AppThemeProvider themeProvider = Provider.of<AppThemeProvider>(context);
     return Text(
-      widget.source.name ?? '',
-      style: widget.isSelected
+      source.name ?? '',
+      style: isSelected
           ? AppStyle.black16medium.copyWith(
         color: themeProvider.appTheme == ThemeMode.light
             ? Colors.black
