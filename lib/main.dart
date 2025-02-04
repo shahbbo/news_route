@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/api/api_manager.dart';
 import 'package:news_app/features/news_view/presentation/news_screen.dart';
 import 'package:news_app/features/news_view/presentation/web_view_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,12 +11,13 @@ import 'features/home_view/presentation/home_screen.dart';
 import 'features/home_view/provider/language_provider.dart';
 import 'features/home_view/provider/theme_provider.dart';
 import 'features/news_view/bloc/news_cubit.dart';
+import 'features/news_view/data/repo/news_repo.dart';
 
 void main() {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => HomeCubit()),
-      BlocProvider(create: (context) => NewsCubit()),
+      BlocProvider(create: (context) => NewsCubit(newsRepository: NewsRepository(apiManager: ApiManager()),)),
     ],
     child: MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
